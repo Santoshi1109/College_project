@@ -1,1 +1,1 @@
-# College_project
+The Zoo Management System is a software project designed to manage zoo operations digitally. It helps store and manage records of animals, staff, visitors, tickets, feeding schedules, and medical details efficiently. The system reduces manual work, improves data management, and makes zoo administration more organized and user-friendly.
