@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ZooSphere</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+
+<nav class="navbar">
+
+  <div class="menu">
+    <a href="index.html">Home</a>
+    <a href="tickets.html">Book Tickets</a>
+    <a href="events.html">Events</a>
+
+    <div class="dropdown">
+      <button class="dropbtn">Animals ▾</button>
+      <div class="dropdown-content">
+        <a href="mammals.html">Mammals</a>
+        <a href="fishes.html">Fishes</a>
+        <a href="birds.html">Birds</a>
+        <a href="reptiles.html">Reptiles</a>
+        <a href="amphibians.html">Amphibians</a>
+      </div>
+    </div>
+
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="register.html" class="btn-outline">Register</a>
+
+    <!-- ===== LOGIN / PROFILE AREA ===== -->
+    <div id="authArea">
+      <a href="login.html" id="loginBtn" class="btn-login">Login</a>
+
+      <div id="profileCircle" class="profile-circle" onclick="toggleProfileMenu()" style="display:none;">
+        <span id="profileLetter">U</span>
+      </div>
+
+      <div id="profileMenu" class="profile-menu" style="display:none;">
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== MAP ICON ===== -->
+  <div class="map-icon" onclick="openMap()">
+    <img src="https://static.vecteezy.com/system/resources/previews/000/583/611/original/location-icon-vector.jpg" alt="Map">
+  </div>
+
+</nav>
+
+<div class="hero-content">
+  <h1>Welcome to ZooSphere</h1>
+  <p>
+    Discover amazing wildlife, enjoy exciting events, 
+    and support conservation programs for endangered species.
+  </p>
+  <a href="tickets.html" class="btn-primary">Book Tickets Now</a>
+</div>
+
+</header>
+
+<div class="feature-container">
+
+  <div class="feature-card">
+    <div class="icon">🎟️</div>
+    <h3>Online Tickets</h3>
+    <p>Book your visit in minutes from anywhere.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="icon">🐾</div>
+    <h3>Live Shows</h3>
+    <p>Enjoy interactive animal performances.</p>
+  </div>
+
+  <div class="feature-card">
+    <div class="icon">🌿</div>
+    <h3>Conservation</h3>
+    <p>Support wildlife protection programs.</p>
+  </div>
+
+</div>
+
+<div style="text-align:center; margin:40px 0;">
+  <a href="rules.html">
+    <button class="rules-btn">Zoo Rules</button>
+  </a>
+</div>
+
+<footer>
+  <p>The ZooSphere is Managed by BMC. © 2026 All Rights Reserved.</p>
+</footer>
+
+<!-- ===== ZOO MAP POPUP ===== -->
+<div id="mapModal" class="map-modal">
+  <div class="map-modal-content">
+    <span class="close-map" onclick="closeMap()">&times;</span>
+    <h2>ZooSphere Map</h2>
+    <img src="https://worldmapgeo.com/wordpress/wp-content/uploads/2022/10/map-of-the-omaha-zoo.jpg" class="map-img" alt="Zoo Map">
+  </div>
+</div>
+
+<script>
+function openMap(){
+  document.getElementById("mapModal").style.display = "block";
+}
+
+function closeMap(){
+  document.getElementById("mapModal").style.display = "none";
+}
+
+/* ===== LOGIN → PROFILE LOGIC ===== */
+window.onload = function(){
+  const userEmail = localStorage.getItem("userEmail");
+
+  if(userEmail){
+    const firstLetter = userEmail.charAt(0).toUpperCase();
+
+    document.getElementById("loginBtn").style.display = "none";
+    document.getElementById("profileCircle").style.display = "flex";
+    document.getElementById("profileLetter").innerText = firstLetter;
+  }
+};
+
+function toggleProfileMenu(){
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+function logout(){
+  localStorage.removeItem("userEmail");
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

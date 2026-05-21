@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register - ZooSphere</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body{
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+      url("images/forest.jpg");
+      background-size: cover;
+      font-family: Arial, sans-serif;
+    }
+
+    .register-box{
+      width: 400px;
+      margin: 80px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .register-box h2{
+      color: #2e8b57;
+      margin-bottom: 20px;
+    }
+
+    input{
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .btn-register{
+      background: #2e8b57;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      width: 95%;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .btn-register:hover{
+      background: #1f6b43;
+    }
+
+    .login-link{
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    #message{
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="register-box">
+  <h2>Create Your ZooSphere Account</h2>
+
+  <form id="registerForm">
+
+    <input type="text" id="fullname" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+
+    <button class="btn-register" type="submit">Register Now</button>
+
+  </form>
+
+  <p id="message"></p>
+
+  <p class="login-link">
+    Already have an account? 
+    <a href="login.html">Login here</a>
+  </p>
+</div>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", function(event){
+  event.preventDefault(); // stops page refresh
+
+  let name = document.getElementById("fullname").value;
+  let email = document.getElementById("email").value;
+  let pass = document.getElementById("password").value;
+  let cpass = document.getElementById("confirmPassword").value;
+
+  if(pass !== cpass){
+    document.getElementById("message").innerText = 
+      "❌ Passwords do NOT match!";
+    document.getElementById("message").style.color = "red";
+  } 
+  else {
+    document.getElementById("message").innerText = 
+      "✅ Registration Successful, " + name + "!";
+    document.getElementById("message").style.color = "green";
+
+    // (Optional) Save data locally – no XAMPP needed
+    localStorage.setItem("zooName", name);
+    localStorage.setItem("zooEmail", email);
+    localStorage.setItem("zooPassword", pass);
+
+    // Redirect to login after 1.5 seconds
+    setTimeout(()=>{
+      window.location.href = "login.html";
+    }, 1500);
+  }
+});
+</script>
+
+</body>
+</html>

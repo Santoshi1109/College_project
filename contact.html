@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Contact Us - ZooSphere</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+/* ===== SUCCESS POPUP ===== */
+.popup-overlay{
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  backdrop-filter: blur(4px);
+}
+
+.popup-box{
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+  width:320px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  animation: pop 0.3s ease-in-out;
+}
+
+@keyframes pop{
+  from{transform:scale(.9); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+.popup-box h3{color:#166534;}
+.popup-box button{
+  margin-top:15px;
+  padding:10px 20px;
+  border:none;
+  background:#166534;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header class="contact-hero">
+  <h1>Contact Us</h1>
+  <p>
+    Have questions about tickets, events, or animal care?  
+    Reach out to us — we’re happy to help.
+  </p>
+</header>
+
+<section class="contact-main">
+
+<div class="contact-info">
+
+  <div class="info-box">
+    <div class="icon-circle">
+      <i class="fa-solid fa-location-dot"></i>
+    </div>
+    <h3>Address</h3>
+    <p>
+      Navi Mumbai Zoo <br>
+      Sector 19, Vashi <br>
+      Maharashtra, India <br><br>
+      <b>Visitor Hours:</b><br>
+      Open daily • 9:00 AM – 6:00 PM <br>
+      Parking available on-site
+    </p>
+  </div>
+
+  <div class="info-box">
+    <div class="icon-circle">
+      <i class="fa-solid fa-phone"></i>
+    </div>
+    <h3>Call Center</h3>
+    <p>
+      +91 93224 38932 <br><br>
+      Available for:<br>
+      • Ticket booking <br>
+      • School & group visits <br>
+      • Lost items <br>
+      • General inquiries
+    </p>
+  </div>
+
+  <div class="info-box">
+    <div class="icon-circle">
+      <i class="fa-solid fa-envelope"></i>
+    </div>
+    <h3>Electronic Support</h3>
+    <p>
+      zoosphere@gmail.com <br><br>
+      Use this for:<br>
+      • Event & corporate bookings <br>
+      • Complaints & feedback <br>
+      • Media inquiries <br>
+      • Volunteer programs <br><br>
+      <b>Response time:</b> Within 24 hours
+    </p>
+  </div>
+
+</div>
+
+<div class="contact-form-panel">
+
+<h2>Send Us a Message</h2>
+<p>We’ll get back to you within one business day.</p>
+
+<form id="contactForm">
+
+  <label>First Name</label>
+  <input type="text" id="firstName" required placeholder="Your first name"><br><br>
+
+  <label>Last Name</label>
+  <input type="text" id="lastName" required placeholder="Your last name"><br><br>
+
+  <label>Email</label>
+  <input type="email" id="email" required placeholder="your@email.com"><br><br>
+
+  <label>Subject</label>
+  <input type="text" id="subject" required placeholder="Subject"><br><br>
+
+  <label>Message</label>
+  <textarea id="message" rows="6" required placeholder="Write your message here..."></textarea><br><br>
+
+  <button type="submit" class="send-btn">
+    <i class="fa-solid fa-paper-plane"></i> Send Message
+  </button>
+
+</form>
+
+</div>
+
+</section>
+
+<section class="map-section">
+  <h2>Find Us on Map</h2>
+
+  <div class="map-card">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.848003663393!2d72.99662381528906!3d19.033823987045414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cfdd191df8df%3A0x9a3484fc2bc2cc3e!2sNavi%20Mumbai%20Zoo%20(Saint%20George%20Zoo)!5e0!3m2!1sen!2sin!4v1707113834445!5m2!1sen!2sin"
+      width="100%"
+      height="400"
+      style="border:0; border-radius:15px;"
+      loading="lazy">
+    </iframe>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 ZooSphere | All Rights Reserved</p>
+</footer>
+
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <h3>✅ Message Sent!</h3>
+    <p>Thank you for contacting ZooSphere.</p>
+    <p>We will reply within one business day.</p>
+    <button onclick="closePopup()">OK</button>
+  </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const form = document.getElementById("contactForm");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const email = document.getElementById("email").value;
+    const subject = document.getElementById("subject").value;
+    const message = document.getElementById("message").value;
+
+    // Simple frontend validation
+    if (!firstName || !lastName || !email || !subject || !message) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    // Simulate server delay (optional)
+    setTimeout(() => {
+      document.getElementById("popup").style.display = "flex";
+      form.reset();
+    }, 500);
+
+  });
+
+});
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+</script>
+</body>
+</html>

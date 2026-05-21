@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Book Tickets | ZooSphere</title>
+<link rel="stylesheet" href="tickets.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1 class="title">Book Tickets</h1>
+  <div class="underline"></div>
+
+  <table class="ticket-table">
+    <tr>
+      <th>Ticket Group</th>
+      <th>Price</th>
+    </tr>
+    <tr>
+      <td>Regular</td>
+      <td>₹499</td>
+    </tr>
+    <tr>
+      <td>Student</td>
+      <td>₹299</td>
+    </tr>
+    <tr>
+      <td>Child</td>
+      <td>₹199</td>
+    </tr>
+  </table>
+
+  <h2 class="subtitle">Select Number of Tickets</h2>
+
+  <div class="form-box">
+
+    <label>Name:</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label>Regular:</label>
+    <input type="number" id="regular" value="0" min="0" oninput="calculateTotal()">
+
+    <label>Student:</label>
+    <input type="number" id="student" value="0" min="0" oninput="calculateTotal()">
+
+    <label>Child:</label>
+    <input type="number" id="child" value="0" min="0" oninput="calculateTotal()">
+
+    <label>Date:</label>
+    <input type="date" id="date">
+
+    <h3 class="total">Total: ₹<span id="totalPrice">0</span></h3>
+
+    <button class="proceed-btn" type="button" onclick="goToPayment()">Proceed to Payment</button>
+
+  </div>
+</div>
+
+<script>
+function calculateTotal(){
+  let regular = parseInt(document.getElementById("regular").value) || 0;
+  let student = parseInt(document.getElementById("student").value) || 0;
+  let child = parseInt(document.getElementById("child").value) || 0;
+
+  let total = (regular * 499) + (student * 299) + (child * 199);
+  document.getElementById("totalPrice").innerText = total;
+}
+
+function goToPayment(){
+
+  let name = document.getElementById("name").value.trim();
+  let regular = parseInt(document.getElementById("regular").value) || 0;
+  let student = parseInt(document.getElementById("student").value) || 0;
+  let child = parseInt(document.getElementById("child").value) || 0;
+  let date = document.getElementById("date").value;
+  let total = parseInt(document.getElementById("totalPrice").innerText) || 0;
+
+  if(name === "" || total === 0){
+    alert("Please enter your name and select at least one ticket!");
+    return;
+  }
+
+  if(date === ""){
+    alert("Please select a visit date!");
+    return;
+  }
+
+  localStorage.setItem("userName", name);
+  localStorage.setItem("regular", regular);
+  localStorage.setItem("student", student);
+  localStorage.setItem("child", child);
+  localStorage.setItem("date", date);
+  localStorage.setItem("total", total);
+
+  window.location.href = "payment.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payment | ZooSphere</title>
+<link rel="stylesheet" href="payment.css">
+</head>
+<body>
+
+<div class="payment-container">
+
+<h1>Complete Your Payment</h1>
+
+<div class="summary-card">
+  <h3>Booking Summary</h3>
+  <p><b>Name:</b> <span id="pName"></span></p>
+  <p><b>Regular Tickets:</b> <span id="pRegular"></span></p>
+  <p><b>Student Tickets:</b> <span id="pStudent"></span></p>
+  <p><b>Child Tickets:</b> <span id="pChild"></span></p>
+  <h3>Total: ₹ <span id="pTotal"></span></h3>
+</div>
+
+<h2>Select Payment Method</h2>
+
+<div class="methods">
+  <div class="method" onclick="showUPI()">UPI</div>
+  <div class="method" onclick="showQR()">QR</div>
+</div>
+
+<div id="upi" class="box hidden">
+  <h3>Choose UPI App</h3>
+  <div class="upi-options">
+    <button onclick="confirmBooking()">Google Pay</button>
+    <button onclick="confirmBooking()">PhonePe</button>
+    <button onclick="confirmBooking()">Paytm</button>
+    <button onclick="confirmBooking()">FamPay</button>
+  </div>
+</div>
+
+<div id="qr" class="box hidden">
+  <h3>Scan & Pay</h3>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ZooSpherePayment">
+  <button onclick="confirmBooking()">I Have Paid</button>
+</div>
+
+</div>
+
+<div id="confirmation-box" class="confirmation-box">
+  <div class="ticket">
+    <div class="notch"></div>
+
+    <div class="ticket-header">
+      <h2>ZooSphere Entry Ticket</h2>
+    </div>
+
+    <div class="ticket-body">
+      <p><b>Name:</b> <span id="cName"></span></p>
+      <p><b>Date:</b> <span id="cDate"></span></p>
+      <p><b>Day:</b> <span id="cDay"></span></p>
+      <p><b>Time:</b> <span id="cTime"></span></p>
+      <p><b>Amount Paid:</b> ₹ <span id="cAmount"></span></p>
+      <p><b>Ticket ID:</b> <span id="ticketID"></span></p>
+
+      <div class="qr-box">
+        <img id="ticketQR">
+        <p>SCAN AT GATE A</p>
+      </div>
+    </div>
+
+    <button class="close-btn" onclick="downloadTicket()">Download Ticket</button>
+  </div>
+</div>
+
+<script>
+
+document.getElementById("pName").innerText = localStorage.getItem("userName");
+document.getElementById("pRegular").innerText = localStorage.getItem("regular");
+document.getElementById("pStudent").innerText = localStorage.getItem("student");
+document.getElementById("pChild").innerText = localStorage.getItem("child");
+document.getElementById("pTotal").innerText = localStorage.getItem("total");
+
+function showUPI(){
+  hideAll();
+  document.getElementById("upi").classList.remove("hidden");
+}
+
+function showQR(){
+  hideAll();
+  document.getElementById("qr").classList.remove("hidden");
+}
+
+function hideAll(){
+  document.getElementById("upi").classList.add("hidden");
+  document.getElementById("qr").classList.add("hidden");
+}
+
+function confirmBooking(){
+
+  const date = localStorage.getItem("date");
+  const now = new Date();
+  const day = new Date(date).toLocaleDateString('en-US', { weekday: 'long' });
+  const time = now.toLocaleTimeString();
+
+  const ticketId = "ZS-" + Math.floor(100000 + Math.random() * 900000);
+
+  const ticketData = {
+    name: localStorage.getItem("userName"),
+    email: "guest@gmail.com",
+    date: date,
+    regularTickets: parseInt(localStorage.getItem("regular")) || 0,
+    studentTickets: parseInt(localStorage.getItem("student")) || 0,
+    childTickets: parseInt(localStorage.getItem("child")) || 0,
+    total: parseInt(localStorage.getItem("total")) || 0
+  };
+
+  // 🔥 SEND TO BACKEND
+  fetch("http://localhost:5000/book", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(ticketData)
+  })
+  .then(res => res.json())
+  .then(data => {
+
+    if(data.success){
+
+      // Only show ticket AFTER backend confirms save
+
+      document.getElementById("cName").innerText = ticketData.name;
+      document.getElementById("cDate").innerText = date;
+      document.getElementById("cDay").innerText = day;
+      document.getElementById("cTime").innerText = time;
+      document.getElementById("cAmount").innerText = ticketData.total;
+      document.getElementById("ticketID").innerText = ticketId;
+
+      document.getElementById("ticketQR").src =
+      "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + ticketId;
+
+      document.getElementById("confirmation-box").style.display = "flex";
+
+    } else {
+      alert("Booking failed. Try again.");
+    }
+
+  })
+  .catch(err => {
+    alert("Server error. Make sure backend is running.");
+  });
+
+}
+
+function closePopup(){
+  window.location.href = "dashboard.html";
+}
+
+function downloadTicket() {
+    window.print();
+    closePopup();
+}
+
+</script>
+
+</body>
+</html>
